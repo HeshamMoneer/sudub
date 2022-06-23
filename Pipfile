@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[scripts]
+sudub = "bash -c \"python3 __main__.py 2> /dev/null\""
+
+[packages]
+opencv-python = "*"
+dlib = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
