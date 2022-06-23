@@ -9,6 +9,7 @@ sudub = "bash -c \"python3 __main__.py 2> /dev/null\""
 [packages]
 opencv-python = "*"
 dlib = "*"
+mediapipe = "*"
 
 [dev-packages]
 
