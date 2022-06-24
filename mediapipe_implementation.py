@@ -25,3 +25,9 @@ def filterFaceBoundsLmsMP(lms):
   if len(lms):
     return list(np.array(lms)[FACE_BOUNDS])
   else: return []
+
+def faceSquareMP(frame):
+  lms = detectLmsMP(frame)
+  if lms == []: return frame
+  x, y = zip(*lms)
+  return frame[min(y):max(y), min(x): max(x)]
