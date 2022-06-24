@@ -43,6 +43,7 @@ def morph_triangle(faceImg, img, t1, t2, t) :
     except: pass
 
 def generate_morph_frame(faceImg,points1,points2,tri_list, alpha):
+    if len(points1) == 0 or len(points2) == 0: return faceImg
     points = []
     for i in range(0, len(points2)):
         x1, x2 = points1[i][0], points2[i][0]
