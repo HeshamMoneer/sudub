@@ -28,7 +28,7 @@ def filterFaceBoundsLmsMP(lms):
     return list(np.array(lms)[FACE_BOUNDS])
   else: return []
 
-def faceSquareMP(frame, dictID = 0):
+def faceRegionMP(frame, dictID = 0):
   lms = detectLmsMP(frame, dictID)
   if lms == []: return frame, lms
   x, y = zip(*lms)
