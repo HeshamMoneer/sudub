@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
-from CONSTANTS import MOUTH_LMS_IDS
+from CONSTANTS import FACE_BOUNDS, MOUTH_LMS_IDS
 
 mpFaceMesh = mp.solutions.face_mesh
 faceMesh = mpFaceMesh.FaceMesh()
@@ -19,4 +19,9 @@ def detectLmsMP(frame):
 def filterMouthLmsMP(lms):
   if len(lms):
     return list(np.array(lms)[MOUTH_LMS_IDS])
+  else: return []
+
+def filterFaceBoundsLmsMP(lms):
+  if len(lms):
+    return list(np.array(lms)[FACE_BOUNDS])
   else: return []
