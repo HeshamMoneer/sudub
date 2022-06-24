@@ -4,10 +4,12 @@ import numpy as np
 
 from CONSTANTS import FACE_BOUNDS, MOUTH_LMS_IDS
 
-mpFaceMesh = mp.solutions.face_mesh
-faceMesh = mpFaceMesh.FaceMesh()
+detectors = {}
 
-def detectLmsMP(frame):
+def detectLmsMP(frame, dictID = 0):
+  if not dictID in detectors.keys():
+    detectors[dictID] = mp.solutions.face_mesh.FaceMesh()
+  faceMesh = detectors[dictID]
   ih, iw, _ = frame.shape
   imgRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
   lms = faceMesh.process(imgRGB)
@@ -26,8 +28,8 @@ def filterFaceBoundsLmsMP(lms):
     return list(np.array(lms)[FACE_BOUNDS])
   else: return []
 
-def faceSquareMP(frame):
-  lms = detectLmsMP(frame)
+def faceSquareMP(frame, dictID = 0):
+  lms = detectLmsMP(frame, dictID)
   if lms == []: return frame
   x, y = zip(*lms)
   return frame[min(y):max(y), min(x): max(x)]
