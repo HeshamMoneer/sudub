@@ -24,8 +24,8 @@ def morph_triangle(faceImg, img, t1, t2, t) :
         # t2Rect.append(((t2[i][0] - r2[0]),(t2[i][1] - r2[1])))
 
     # Get mask by filling triangle in rectangle
-    mask = np.zeros((r[3], r[2]), dtype = np.uint8)
-    cv2.fillConvexPoly(mask, np.int32(tRect), 1, 16, 0)
+    mask = np.zeros((r[3], r[2], 3), dtype = np.uint8)
+    cv2.fillConvexPoly(mask, np.int32(tRect), (1,1,1), 16, 0)
 
     # Apply warpImage to small rectangular patches
     faceImgRect = faceImg[r1[1]:r1[1] + r1[3], r1[0]:r1[0] + r1[2]]
