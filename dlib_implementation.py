@@ -26,3 +26,12 @@ def detectLmsDlib(img):
 
 def filterMouthLmsDlib(lms):
   return lms[48:68]
+
+def faceSquareDlib(img):
+  faces = faces_classifier.detectMultiScale(img)
+  if len(faces):
+    faceRegion = faces[0]
+  else: return img
+
+  x,y,w,h = faceRegion
+  return img[y:y+h,x:x+w]
