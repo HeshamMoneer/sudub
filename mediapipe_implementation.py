@@ -30,6 +30,8 @@ def filterFaceBoundsLmsMP(lms):
 
 def faceSquareMP(frame, dictID = 0):
   lms = detectLmsMP(frame, dictID)
-  if lms == []: return frame
+  if lms == []: return frame, lms
   x, y = zip(*lms)
-  return frame[min(y):max(y), min(x): max(x)]
+  x1,x2,y1,y2 = min(x),max(x),min(y),max(y)
+  lms = list(map(lambda tup: (tup[0]-x1,tup[1]-y1), lms))
+  return frame[y1:y2,x1:x2], lms
