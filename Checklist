@@ -1,0 +1,3 @@
+1- Make delaunay triangulation of lips mesh
+2- Transform triangulation using the stored blair phoneme series
+    For that use the captured images to pre-calculate the lips positions needed
