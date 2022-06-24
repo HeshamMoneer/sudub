@@ -44,7 +44,7 @@ def morph_triangle(faceImg, img, t1, t2, t) :
 
 def generate_morph_frame(faceImg,points1,points2,tri_list, alpha):
     points = []
-    for i in range(0, len(points1)):
+    for i in range(0, len(points2)):
         x1, x2 = points1[i][0], points2[i][0]
         x = (1 - alpha) * x1 + alpha * x2
         y1, y2 = points1[i][1], points2[i][1]
