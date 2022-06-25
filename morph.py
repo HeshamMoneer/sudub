@@ -1,6 +1,8 @@
 import numpy as np
 import cv2
 
+from delaunay_triangulation import make_delaunay
+
 def apply_affine_transform(src, srcTri, dstTri, size) :
     warpMat = cv2.getAffineTransform(np.float32(srcTri), np.float32(dstTri))
     dst = cv2.warpAffine(src, warpMat, (size[0], size[1]), None, flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT_101)
@@ -42,13 +44,14 @@ def morph_triangle(faceImg, img, t1, t2, t) :
     try: img[r[1]:r[1]+r[3], r[0]:r[0]+r[2]] = img[r[1]:r[1]+r[3], r[0]:r[0]+r[2]] * ( 1 - mask ) + imgRect * mask
     except: pass
 
-def generate_morph_frame(faceImg,points1,points2,tri_list, alpha):
-    if len(points1) == 0 or len(points2) == 0: return faceImg
+def generate_morph_frame(faceImg,faceImgPoints,newPoints,tri_list = [], alpha = 1):
+    if len(faceImgPoints) == 0 or len(newPoints) == 0: return faceImg
+    if tri_list == []: tri_list = make_delaunay(faceImg.shape, newPoints)
     points = []
-    for i in range(0, len(points2)):
-        x1, x2 = points1[i][0], points2[i][0]
+    for i in range(0, len(newPoints)):
+        x1, x2 = faceImgPoints[i][0], newPoints[i][0]
         x = (1 - alpha) * x1 + alpha * x2
-        y1, y2 = points1[i][1], points2[i][1]
+        y1, y2 = faceImgPoints[i][1], newPoints[i][1]
         y = (1 - alpha) * y1 + alpha * y2
         points.append((x,y))
     
@@ -59,8 +62,8 @@ def generate_morph_frame(faceImg,points1,points2,tri_list, alpha):
         y = int(tri_list[i][1])
         z = int(tri_list[i][2])
         
-        t1 = [mb(points1[x]), mb(points1[y]), mb(points1[z])]
-        t2 = [mb(points2[x]), mb(points2[y]), mb(points2[z])]
+        t1 = [mb(faceImgPoints[x]), mb(faceImgPoints[y]), mb(faceImgPoints[z])]
+        t2 = [mb(newPoints[x]), mb(newPoints[y]), mb(newPoints[z])]
         t =  [mb(points[x]), mb(points[y]), mb(points[z])]
 
         # Morph one triangle at a time.

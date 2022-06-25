@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
-from CONSTANTS import FACE_BOUNDS, MOUTH_LMS_IDS
+from CONSTANTS import FACE_BOUNDS, MOUTH_BOUNDS, MOUTH_LMS_IDS
 
 detectors = {}
 
@@ -21,6 +21,11 @@ def detectLmsMP(frame, dictID = 0):
 def filterMouthLmsMP(lms):
   if len(lms):
     return list(np.array(lms)[MOUTH_LMS_IDS])
+  else: return []
+
+def filterMouthBoundsMP(lms):
+  if len(lms):
+    return list(np.array(lms)[MOUTH_BOUNDS])
   else: return []
 
 def filterFaceBoundsLmsMP(lms):
