@@ -34,13 +34,15 @@ def align(img1, img2):
 
   newFace = getBackFaceShape(frame, oldShape)
   x1,x2,y1,y2 = oldLocation
+  img1 = img1.copy()
   img1[y1:y2, x1:x2] = newFace
   return img1
 
 def fom(img1, img2): # Empty trainagles occur in the trianglation, needs speculation
-  face1, lms1 = faceRegionMP(img1, 1)
+  face1, lms1, oldLocation = faceRegionMP(img1, 1)
+  oldShape = face1.shape
 
-  face2, lms2 = faceRegionMP(img2, 2)
+  face2, lms2, _ = faceRegionMP(img2, 2)
 
 
   face1, lms1 = squareFit(face1, lms1)
@@ -49,20 +51,18 @@ def fom(img1, img2): # Empty trainagles occur in the trianglation, needs specula
   face2, lms2 = squareFit(face2, lms2)
   face2, lms2 = resize(face2, lms2)
 
-  flms1 = filterFaceLmsMP(lms1)
-  flms2 = filterFaceLmsMP(lms2)
-
   blms1 = filterFaceBoundsLmsMP(lms1)
   blms2 = filterFaceBoundsLmsMP(lms2)
-
-  ulms1 = flms1 + blms1
-  ulms2 = flms2 + blms2
 
   frame = generate_morph_frame(face1, lms1, lms2)
   frame = generate_morph_frame(frame, blms2, blms1)
   frame[frame==0] = face1[frame==0]
-
-  return frame
+  
+  newFace = getBackFaceShape(frame, oldShape)
+  x1,x2,y1,y2 = oldLocation
+  img1 = img1.copy()
+  img1[y1:y2, x1:x2] = newFace
+  return img1
 
 def resize(img, lms):
   ih, iw, _ = img.shape
