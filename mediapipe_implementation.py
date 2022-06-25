@@ -40,7 +40,7 @@ def filterFaceLmsMP(lms):
 
 def faceRegionMP(frame, dictID = 0):
   lms = detectLmsMP(frame, dictID)
-  if lms == []: return frame, lms
+  if lms == []: return frame, lms, (0,frame.shape[1],0,frame.shape[0])
   x, y = zip(*lms)
   x1,x2,y1,y2 = min(x),max(x),min(y),max(y)
   lms = list(map(lambda tup: (tup[0]-x1,tup[1]-y1), lms))
