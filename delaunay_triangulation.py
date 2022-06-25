@@ -45,7 +45,7 @@ def make_delaunay(shape, narray):
     # Make a points list and a searchable dictionary. 
     # narray = narray.tolist()
     points = [(int(x[0]),int(x[1])) for x in narray]
-    dictionary = {x[0]:x[1] for x in list(zip(points, range(76)))}
+    dictionary = {x[0]:x[1] for x in list(zip(points, range(len(points))))}
     
     # Insert points into subdiv
     for p in points :
