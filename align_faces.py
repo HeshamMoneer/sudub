@@ -7,9 +7,10 @@ from draw_lms import drawCircles, drawDelaunayMesh
 from morph import generate_morph_frame
 
 def align(img1, img2):
-  face1, lms1 = faceRegionMP(img1, 1)
+  face1, lms1, oldLocation = faceRegionMP(img1, 1)
+  oldShape = face1.shape
 
-  face2, lms2 = faceRegionMP(img2, 2)
+  face2, lms2, _ = faceRegionMP(img2, 2)
 
 
   face1, lms1 = squareFit(face1, lms1)
@@ -31,7 +32,10 @@ def align(img1, img2):
   frame = generate_morph_frame(frame, blms2, blms1)
   frame[frame==0] = face1[frame==0]
 
-  return frame
+  newFace = getBackFaceShape(frame, oldShape)
+  x1,x2,y1,y2 = oldLocation
+  img1[y1:y2, x1:x2] = newFace
+  return img1
 
 def fom(img1, img2): # Empty trainagles occur in the trianglation, needs speculation
   face1, lms1 = faceRegionMP(img1, 1)
@@ -76,3 +80,15 @@ def squareFit(img, lms):
   res[sh:height+sh, sw:width+sw] = img
   lms = list(map(lambda tup: (tup[0]+sw,tup[1]+sh), lms))
   return res, lms
+
+def getBackFaceShape(face, oldShape):
+  h,w,_ = oldShape
+  dim = max(w,h)
+  face = cv2.resize(face, (dim,dim))
+  if dim == w:
+    start = int((dim-h)/2)
+    face = face[start:start+h,:]
+  else:
+    start = int((dim-w)/2)
+    face = face[:,start:start+w]
+  return face
