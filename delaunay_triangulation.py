@@ -27,7 +27,9 @@ def draw_delaunay(f_w, f_h, subdiv, dictionary1):
         pt3 = (int(t[4]), int(t[5]))
 
         if rect_contains(r, pt1) and rect_contains(r, pt2) and rect_contains(r, pt3) :
-            list4.append((dictionary1[pt1],dictionary1[pt2],dictionary1[pt3]))
+            try:
+                list4.append((dictionary1[pt1],dictionary1[pt2],dictionary1[pt3]))
+            except: pass
 
     dictionary1 = {}
     return list4
