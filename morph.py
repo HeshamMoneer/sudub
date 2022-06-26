@@ -46,7 +46,7 @@ def morph_triangle(faceImg, img, t1, t2, t) :
 
 def generate_morph_frame(faceImg,faceImgPoints,newPoints,tri_list = [], alpha = 1):
     if len(faceImgPoints) == 0 or len(newPoints) == 0: return faceImg
-    if tri_list == []: tri_list = make_delaunay(faceImg.shape, newPoints)
+    if tri_list == []: tri_list = make_delaunay(faceImg.shape, faceImgPoints)
     points = []
     for i in range(0, len(newPoints)):
         x1, x2 = faceImgPoints[i][0], newPoints[i][0]
