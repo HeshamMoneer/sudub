@@ -10,8 +10,9 @@ def cmf(video_path):
   return cf(video_path, 'samples/closed_mouth.jpg')
 
 # get closest frame to passed image
-def cf(video_path, image_path):
-  img = cv2.imread(image_path)
+def cf(video_path, image_path, img = []):
+  if img == []:
+    img = cv2.imread(image_path)
   img = squareFit(img)
   img = cv2.resize(img, (500,500))
   img_lms = detectLmsMP(img, 20)
